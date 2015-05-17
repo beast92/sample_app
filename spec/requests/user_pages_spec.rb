@@ -41,6 +41,7 @@ describe "User pages" do
       it "should create a user" do
         expect { click_button submit }.to change(User, :count).by(1)
       end
+
     end
     describe "signup with invalid information" do
       before do
@@ -53,6 +54,14 @@ describe "User pages" do
       it "should not create user" do
         expect { click_button submit }.not_to change(User, :count).by(1)
       end
+      
+      describe "after submission" do
+              before { click_button submit }
+
+              it { should have_title('Sign up') }
+              it { should have_content('error') }
+      end
+
     end
   end
 end
