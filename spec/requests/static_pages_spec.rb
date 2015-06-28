@@ -32,8 +32,7 @@ describe "Static pages" do
     describe "for signed-in users" do
       let(:user) { FactoryGirl.create(:user) }
       before do
-        FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum")
-        FactoryGirl.create(:micropost, user: user, content: "Dolor sit amet")
+        30.times { FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum") }
         sign_in user
         visit root_path
       end
@@ -42,6 +41,21 @@ describe "Static pages" do
         user.feed.each do |item|
           expect(page).to have_selector("li##{item.id}", text: item.content)
         end
+      end
+      it "should render count of posts" do
+        visit root_path
+        should have_content(user.microposts.count)
+      end
+    end
+    describe "for signed-in user" do
+      let(:user) { FactoryGirl.create(:user) }
+      before do
+        35.times { FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum") }
+        sign_in user
+        visit root_path
+      end
+      it "should render pagination" do
+        should have_selector('div.pagination')
       end
     end
 

@@ -1,7 +1,12 @@
 <%= form_for(@micropost) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
-  <div class="field">
-    <%= f.text_area :content, placeholder: "Compose new micropost..." %>
+  <div class="field" >
+    <%= f.text_area :content, placeholder: "Compose new micropost...", 
+    			:onKeyUp => "if (this.value.length < 140) (countdown.value = 140-this.value.length + ' characters left.'); if (this.value.length > 140) (countdown.value = 'Micropost is too long!'); ",
+    			:onKeyDown => "if (this.value.length < 140)(countdown.value = 140-this.value.length + ' characters left.'); if (this.value.length > 140)(countdown.value = 'Micropost is too long!'); " %>
+    <input readonly type="text" name="countdown" size="3" value="Lets do it!">
   </div>
   <%= f.submit "Post", class: "btn btn-large btn-primary" %>
 <% end %>
+
+
